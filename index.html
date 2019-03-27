@@ -110,7 +110,10 @@
 
 <script>
     var earning = 0;
+    var notClicked = 1;
     var roomPicked = -1;
+    var x = -1;
+    var y = -1;
     var signals = document.getElementsByClassName("signal");
     var boulders = document.getElementsByClassName("boulder");
     var rooms = document.getElementsByClassName("room");
@@ -175,15 +178,20 @@
     }
     function onDraw() {
         boulderColor(bldsPicked, "white");
-        bldDrop();
+        bldDrop(Math.pow(37.5,2));
         confirm.disabled = true;
         if(!bldsPicked.includes(roomPicked)) {
+            earning += 100;
+        } else if(Math.sqrt(Math.pow(x-37.5,2) + Math.pow(y-37.5,2)) > 37.5) {
             earning += 100;
         }
         earningDiv.innerHTML = "$   " + earning;
     }
     function onNext() {
+        notClicked = 1;
         roomPicked=-1;
+        x=-1;
+        y=-1;
         signalColor(4, "red");
         boulderColor([0,1,2,3], "brown");
         cleanRooms();
@@ -215,23 +223,51 @@
     }
 
     function drop0(e) {
-        roomPicked = 0;
-        onDraw();
+        if(notClicked) {
+            var rect = rooms[0].getBoundingClientRect();
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
+            notClicked = 0;
+            roomPicked = 0;
+            onDraw();
+        }
     }
 
     function drop1(e) {
-        roomPicked = 1;
-        onDraw();
+        if(notClicked) {
+            var rect = rooms[1].getBoundingClientRect();
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
+            notClicked = 0;
+            roomPicked = 1;
+            onDraw();
+        }
     }
 
     function drop2(e) {
-        roomPicked = 2;
-        onDraw();
+        if(notClicked) {
+            var rect = rooms[2].getBoundingClientRect();
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
+            x = e.clientX;
+            y = e.clientY;
+            notClicked = 0;
+            roomPicked = 2;
+            onDraw();
+        }
     }
 
     function drop3(e) {
-        roomPicked = 3;
-        onDraw();
+        if(notClicked) {
+            var rect = rooms[3].getBoundingClientRect();
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
+            x = e.clientX;
+            y = e.clientY;
+            notClicked = 0;
+            roomPicked = 3;
+            onDraw();
+        }
     }
 
 
