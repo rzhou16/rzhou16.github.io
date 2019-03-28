@@ -18,7 +18,7 @@
 <body>
     <!-- div to display instructions -->
     <p style="font-size:200%; line-height: 2; font-family: Times New Roman" class="text-center">The Boulder Game</p>
-    <div id="insDiv" style="text-indent: 5%; line-height: 3; font-family: Times New Roman; font-size:12pt">You are presented with four rooms (squares). Each time, boulders (big brown circles) will be dropped on a certain rooms. To play this game, you will click inside one of the rooms to place your character in that room. The red light signals (small red circles) will turn green indicating how many rooms will be safe, but they are only there to signal number. They don't correspond to any room individually. If your character survives the boulder fall, you gain $100. If not, you lose $100.</div>
+    <div id="insDiv" style="text-indent: 5%; line-height: 3; font-family: Times New Roman; font-size:12pt">You are presented with four rooms of doom (squares). Each has a big giant boulder (big brown circles) hanging from the ceiling. Each time, 1 to 3 rooms will have their boulder dropped. The red light signals (small red circles) will turn green indicating how many rooms will be safe. Your goal is to help John survive the boulder fall. Click inside one of the rooms to put John inside the room. If John survives, you earn money based on how many safe rooms are available ($100, $200, and $300 for 3, 2, and 1 respectively). If John gets killed by the boulder, you lose $150.</div>
 	<!-- div to display signals -->
     <div class="text-center" id="signalDiv">
         <span class="signal"></span>
@@ -179,11 +179,21 @@
         bldDrop(Math.pow(37.5,2));
         confirm.disabled = true;
         if(!bldsPicked.includes(roomPicked)) {
+            if(numSafe == 3)
             earning += 100;
+            else if(numSafe == 2)
+            earning += 200;
+            else if(numSafe == 1)
+            earning += 300
         } else if(Math.sqrt(Math.pow(x-37.5,2) + Math.pow(y-37.5,2)) > 37.5) {
+            if(numSafe == 3)
             earning += 100;
+            else if(numSafe == 2)
+            earning += 200;
+            else if(numSafe == 1)
+            earning += 300
         } else {
-            earning -= 100;
+            earning -= 150;
         }
         earningDiv.innerHTML = "$   " + earning;
     }
@@ -212,9 +222,9 @@
         let blds = [];
         let i = 0;
         while(i < num) {
-            bld = getRandomInt(3,0);
+            bld = getRandomInt(4,0);
             while(blds.includes(bld)) {
-                bld = getRandomInt(3,0);
+                bld = getRandomInt(4,0);
             }
             blds.push(bld);
             i+=1;
@@ -223,7 +233,7 @@
     }
     function drop0(e) {
         if(notClicked) {
-            var rect = rooms[0].getBoundingClientRect();
+            let rect = rooms[0].getBoundingClientRect();
             x = e.clientX - rect.left;
             y = e.clientY - rect.top;
             notClicked = 0;
@@ -233,7 +243,7 @@
     }
     function drop1(e) {
         if(notClicked) {
-            var rect = rooms[1].getBoundingClientRect();
+            let rect = rooms[1].getBoundingClientRect();
             x = e.clientX - rect.left;
             y = e.clientY - rect.top;
             notClicked = 0;
@@ -243,11 +253,9 @@
     }
     function drop2(e) {
         if(notClicked) {
-            var rect = rooms[2].getBoundingClientRect();
+            let rect = rooms[2].getBoundingClientRect();
             x = e.clientX - rect.left;
             y = e.clientY - rect.top;
-            x = e.clientX;
-            y = e.clientY;
             notClicked = 0;
             roomPicked = 2;
             onDraw();
@@ -255,11 +263,9 @@
     }
     function drop3(e) {
         if(notClicked) {
-            var rect = rooms[3].getBoundingClientRect();
+            let rect = rooms[3].getBoundingClientRect();
             x = e.clientX - rect.left;
             y = e.clientY - rect.top;
-            x = e.clientX;
-            y = e.clientY;
             notClicked = 0;
             roomPicked = 3;
             onDraw();
